@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Icon, LucideProps } from "lucide-react";
+import { LucideProps } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { Icon } from "./icons";
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
     href: string;
     title: string;
-    Icon?: typeof Icon | ((arg: LucideProps) => JSX.Element);
+    Icon?: Icon | ((arg: LucideProps) => JSX.Element);
   }[];
 }
 

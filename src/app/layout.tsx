@@ -3,10 +3,13 @@ import { Metadata } from "next";
 
 import { cn } from "@/lib/utils";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "./theme-provider";
 import SiteHeader from "@/components/site-header";
 import { Inter } from "next/font/google";
 import { siteConfig } from "@/lib/config";
+import MobileHeader from "@/components/mobile-header";
+import SessionProvider from "./session-provider";
+import { getServerSession } from "next-auth";
 
 export const metadata: Metadata = {
   title: {
@@ -31,7 +34,9 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getServerSession();
+
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -43,10 +48,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1">{children}</div>
-            </div>
+            <SessionProvider session={session}>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <MobileHeader />
+                <div className="flex-1">{children}</div>
+              </div>
+            </SessionProvider>
             <TailwindIndicator />
           </ThemeProvider>
         </body>

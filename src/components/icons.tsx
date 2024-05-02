@@ -7,9 +7,11 @@ import {
   Menu,
   type Icon as LucideIcon,
 } from "lucide-react";
+import react from "react";
 
-// TODO: Fix the type of the Icon
-export type Icon = typeof LucideIcon;
+export type Icon = react.ForwardRefExoticComponent<
+  Omit<LucideProps, "ref"> & react.RefAttributes<SVGSVGElement>
+>;
 
 export const Icons: Record<string, Icon | ((arg: LucideProps) => JSX.Element)> =
   {
