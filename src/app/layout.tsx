@@ -7,7 +7,6 @@ import { ThemeProvider } from "./theme-provider";
 import SiteHeader from "@/components/site-header";
 import { Inter } from "next/font/google";
 import { siteConfig } from "@/lib/config";
-import MobileHeader from "@/components/mobile-header";
 import SessionProvider from "./session-provider";
 import { getServerSession } from "next-auth";
 
@@ -51,7 +50,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <SessionProvider session={session}>
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
-                <MobileHeader />
                 <div className="flex-1">{children}</div>
               </div>
             </SessionProvider>

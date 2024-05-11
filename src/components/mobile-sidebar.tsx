@@ -1,10 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
-import { cn } from "@/lib/utils";
-import Avatar from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { blogCategories, siteConfig } from "@/lib/config";
 import {
   Accordion,
@@ -41,7 +37,7 @@ const NavSheet = ({ children }: { children: React.ReactNode }) => (
   </Sheet>
 );
 
-const MobileSidebar = () => {
+export const MobileSidebar = () => {
   return (
     <NavSheet>
       <ul className="flex flex-col items-start w-full gap-2">
@@ -49,7 +45,7 @@ const MobileSidebar = () => {
           <Accordion defaultValue="category" type="single">
             <AccordionItem value="category">
               <AccordionTrigger className="text-bold w-full">
-                Categories
+                Blogs
               </AccordionTrigger>
               <AccordionContent>
                 <ul className="flex flex-col items-start w-full gap-2">
@@ -57,7 +53,7 @@ const MobileSidebar = () => {
                     <li key={category.title}>
                       <Link
                         className={buttonVariants({ variant: "link" })}
-                        href={`/blogs/category?=${encodeURIComponent(
+                        href={`/blogs?category=${encodeURIComponent(
                           category.title.toLowerCase()
                         )}`}
                       >
@@ -106,33 +102,3 @@ const MobileSidebar = () => {
     </NavSheet>
   );
 };
-
-const MobileHeader = () => {
-  const { status } = useSession();
-
-  return (
-    <section className="px-[calc(10vw/2)] bg-background border-b-[1px] sticky top-0 z-40 flex items-center justify-between h-16 py-2 min-[800px]:hidden">
-      <MobileSidebar />
-      <div className="flex items-center justify-end flex-1 space-x-4">
-        <ThemeToggle />
-        {status === "authenticated" ? (
-          <Avatar />
-        ) : (
-          <Link
-            href="/auth/signin"
-            className={cn(
-              buttonVariants({
-                size: "sm",
-                className: "no-underline",
-              })
-            )}
-          >
-            Sign in
-          </Link>
-        )}
-      </div>
-    </section>
-  );
-};
-
-export default MobileHeader;
