@@ -9,6 +9,7 @@ import { Inter } from "next/font/google";
 import { siteConfig } from "@/lib/config";
 import SessionProvider from "./session-provider";
 import { getServerSession } from "next-auth";
+import QueryProvider from "./query-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -47,13 +48,15 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <SessionProvider session={session}>
-              <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
-                <div className="flex-1">{children}</div>
-              </div>
-            </SessionProvider>
-            <TailwindIndicator />
+            <QueryProvider>
+              <SessionProvider session={session}>
+                <div className="relative flex min-h-screen flex-col">
+                  <SiteHeader />
+                  <div className="flex-1">{children}</div>
+                </div>
+              </SessionProvider>
+              <TailwindIndicator />
+            </QueryProvider>
           </ThemeProvider>
         </body>
       </html>

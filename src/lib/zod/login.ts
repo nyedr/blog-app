@@ -15,7 +15,7 @@ export const userLoginSchema = z.object({
 
 export type UserLoginData = z.infer<typeof userLoginSchema>;
 
-export type SignInResponse = {
+export type LoginResponse = {
   isError: boolean;
   user: User | null;
   error?: {

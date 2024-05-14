@@ -11,3 +11,14 @@ export const calculateReadTime = (wordCount: number) => {
   const readTime = Math.ceil(minutes);
   return readTime;
 };
+
+export function slugify(string: string) {
+  return string
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+}
+
+export function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US");
+}

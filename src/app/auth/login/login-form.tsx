@@ -18,6 +18,7 @@ import { UserLoginData, userLoginSchema } from "@/lib/zod/login";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -71,13 +72,9 @@ const LoginForm = () => {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email address</FormLabel>
               <FormControl>
-                <Input
-                  type="email"
-                  placeholder="placeholder@example.com"
-                  {...field}
-                />
+                <Input type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +95,18 @@ const LoginForm = () => {
           )}
         />
 
-        <Button disabled={isLoading} isLoading={isLoading} type="submit">
+        <Link
+          href="/auth/forgot-password"
+          className="text-sm transition-colors underline-offset-4 hover:underline text-blue-400 font-semibold hover:text-blue-400/80"
+        >
+          Forgot password?
+        </Link>
+
+        <Button
+          disabled={isLoading || !form.formState.isValid}
+          isLoading={isLoading}
+          type="submit"
+        >
           Continue
           <span className="sr-only">Log in</span>
         </Button>

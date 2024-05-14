@@ -14,39 +14,44 @@ enum Provider {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  email    String    @unique
-  name     String
-  posts    Post[]
-  comments Comment[]
-  provider Provider
+  id        String    @id @default(uuid())
+  email     String    @unique
+  name      String    @unique
+  hashedPwd String
+  image     String?
+  blogs     Blog[]
+  comments  Comment[]
+  provider  Provider  @default(EMAIL)
 }
 
-model Post {
-  id         String     @id @default(uuid())
-  title      String
-  content    String?
-  published  Boolean    @default(false)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  authorId   String
-  author     User       @relation(fields: [authorId], references: [id])
-  comments   Comment[]
-  categories Category[]
+enum Category {
+  DEVELOPMENT
+  DESIGN
+  INFRUSTRUCTURE
+  EMERGING_TECH
+  SECURITY
+  CONSUMER_TECH
+}
+
+model Blog {
+  id        String    @id @default(uuid())
+  title     String    @unique
+  content   String
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id])
+  comments  Comment[]
+  category  Category
 }
 
 model Comment {
   id        String   @id @default(uuid())
   text      String
   createdAt DateTime @default(now())
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  blogId    String
+  blog      Blog     @relation(fields: [blogId], references: [id])
   authorId  String
   author    User     @relation(fields: [authorId], references: [id])
-}
-
-model Category {
-  id    String @id @default(uuid())
-  name  String @unique
-  posts Post[]
 }

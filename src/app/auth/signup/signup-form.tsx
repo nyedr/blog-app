@@ -20,14 +20,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
-interface SignInFormProps {
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoading: boolean;
-}
-
-const SignUpForm = ({ setIsLoading, isLoading }: SignInFormProps) => {
+const SignUpForm = () => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<UserSignUpData>({
     resolver: zodResolver(userSignUpSchema),
     defaultValues: {

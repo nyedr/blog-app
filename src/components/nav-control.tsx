@@ -2,10 +2,10 @@
 
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./theme-toggle";
-import Avatar from "./ui/avatar";
 import { buttonVariants } from "./ui/button";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import UserAvatar from "./ui/user-avatar";
 
 const NavControl = () => {
   const { status } = useSession();
@@ -14,7 +14,7 @@ const NavControl = () => {
     <div className="flex items-center justify-end flex-1 space-x-4">
       <ThemeToggle />
       {status === "authenticated" ? (
-        <Avatar />
+        <UserAvatar />
       ) : (
         <Link
           href="/auth/login"
