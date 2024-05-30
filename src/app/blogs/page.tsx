@@ -1,19 +1,31 @@
-"use client";
+import prisma from "@/lib/db";
+import Blog from "@/components/blog";
 
-import { useQuery } from "@tanstack/react-query";
-
-const BlogsPage = () => {
-  const {} = useQuery({
-    queryKey: ["blogs"],
-    queryFn: async () => {},
-    staleTime: 60000,
-  });
-
-  return (
-    <div>
-      <h1>Blog Page</h1>
-    </div>
-  );
+const BlogsPage = async () => {
+  // const blogs = await prisma.blog.findMany({
+  //   include: {
+  //     author: true,
+  //   },
+  // });
+  // return (
+  //   <div>
+  //     <h1>Blog Page</h1>
+  //     <div className="flex flex-wrap w-full gap-4">
+  //       {blogs.map((blog) => (
+  //         <Blog
+  //           {...{
+  //             authorName: blog.author.name,
+  //             title: blog.title,
+  //             content: blog.content,
+  //             id: blog.id,
+  //             createdAt: blog.createdAt,
+  //             key: blog.id,
+  //           }}
+  //         />
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default BlogsPage;

@@ -19,6 +19,6 @@ export function slugify(string: string) {
     .replace(/[^\w-]+/g, "");
 }
 
-export function formatDate(date: string) {
+export function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("en-US");
 }

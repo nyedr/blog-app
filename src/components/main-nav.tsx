@@ -14,9 +14,9 @@ import {
   NavigationMenuLink,
   navItemTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
-export function MainNav() {
+export const MainNav = () => {
   return (
     <div className="flex gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
@@ -44,9 +44,15 @@ export function MainNav() {
                     </ListItem>
                   ))}
                 </ul>
-                <Button className="ml-6 mb-6 mt-[-4px]" size="sm">
+                <Link
+                  href="/blogs"
+                  className={buttonVariants({
+                    className: "ml-6 mb-6 mt-[-4px]",
+                    size: "sm",
+                  })}
+                >
                   See all blogs
-                </Button>
+                </Link>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -68,4 +74,4 @@ export function MainNav() {
       </nav>
     </div>
   );
-}
+};

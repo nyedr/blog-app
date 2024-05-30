@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "clean": "RMDIR node_modules /S /Q && pnpm install && npx prisma generate",
-    "lint": "next lint",
-    "preinstall": "npx only-allow pnpm"
-  },
+    "clean-schema": "RMDIR node_modules /S /Q && pnpm install && npx prisma generate",
+    "preinstall": "npx only-allow pnpm",
+    "db:studio": "npx prisma studio",
+    "db:push": "npx prisma db push"
+  }, 
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@next-auth/prisma-adapter": "^1.0.7",
