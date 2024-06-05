@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "./theme-provider";
 import SiteHeader from "@/components/site-header";
-import { Inter } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import { siteConfig } from "@/lib/config";
 import SessionProvider from "./session-provider";
 import { getServerSession } from "next-auth";
@@ -17,10 +17,10 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+  // themeColor: [
+  //   { media: "(prefers-color-scheme: light)", color: "white" },
+  //   { media: "(prefers-color-scheme: dark)", color: "black" },
+  // ],
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
@@ -28,8 +28,10 @@ export const metadata: Metadata = {
   },
 };
 
-const inter = Inter({ subsets: ["latin"] });
-
+const roboto = Roboto({
+  weight: "400",
+  subsets: ["latin"],
+});
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -44,7 +46,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
-            inter.className
+            roboto.className
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -52,7 +54,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               <SessionProvider session={session}>
                 <div className="relative flex min-h-screen flex-col">
                   <SiteHeader />
-                  <div className="flex-1">{children}</div>
+                  <div className="flex-1 mt-6 sm:mt-10">{children}</div>
                 </div>
               </SessionProvider>
               <TailwindIndicator />

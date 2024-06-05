@@ -19,6 +19,8 @@ import { Icons } from "@/components/icons";
 const UserAvatar = () => {
   const { data: session } = useSession();
 
+  // TODO: Fix the user avatar name
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,7 +34,9 @@ const UserAvatar = () => {
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {session?.user?.name ?? "Not found"}
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>

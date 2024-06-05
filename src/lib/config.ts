@@ -26,7 +26,7 @@ export const blogCategories: NavMenuItem[] = [
       "Explore cutting-edge development techniques, languages, and frameworks.",
   },
   {
-    title: "UI/UX Design",
+    title: "Design",
     description:
       "Insights and trends in user interface and user experience design.",
   },

@@ -20,5 +20,19 @@ export function slugify(string: string) {
 }
 
 export function formatDate(date: Date) {
-  return new Date(date).toLocaleDateString("en-US");
+  return new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+// capitalize function
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+// truncate
+export function truncate(str: string, length: number) {
+  return str.length > length ? str.slice(0, length) + "..." : str;
 }

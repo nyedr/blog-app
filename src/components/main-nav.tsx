@@ -14,7 +14,7 @@ import {
   NavigationMenuLink,
   navItemTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 
 export const MainNav = () => {
   return (

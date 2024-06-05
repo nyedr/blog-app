@@ -4,6 +4,7 @@ import { Category } from "@prisma/client";
 export async function GET(req: Request) {
   const searchParams = new URLSearchParams(req.url.split("?")[1]);
   const category = searchParams.get("category");
+  console.log("Category:", category);
   const searchQuery = searchParams.get("query");
 
   let blogs = [];
@@ -17,6 +18,7 @@ export async function GET(req: Request) {
     updatedAt: true,
     published: true,
     category: true,
+    description: true,
     authorId: true,
     comments: {
       select: {

@@ -1,32 +1,41 @@
-import Image from "next/image";
-import placeholderImage from "../../public/BlogPlaceholderImageV1.png";
+import { capitalize, formatDate, slugify, truncate } from "@/lib/utils";
+import { Badge } from "./ui/badge";
 import Link from "next/link";
-import { formatDate, slugify } from "@/lib/utils";
+import Avatar from "./ui/avatar";
+import { BlogType } from "@/app/blogs/page";
 
-interface BlogProps {
-  image?: string;
-  title: string;
-  authorName: string;
-  createdAt: Date;
-}
-
-const Blog = ({ authorName, createdAt, title, image }: BlogProps) => {
+const Blog = ({
+  category,
+  createdAt,
+  description,
+  title,
+  author,
+}: BlogType) => {
   return (
-    <Link href={`/blogs/${slugify(title)}`} className="flex items-center gap-3">
-      <Image
-        width={152}
-        height={90}
-        src={image ?? placeholderImage}
-        alt={title}
-      />
-      <div className="flex p-2 flex-col border-b space-between gap-3 items-start">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <div className="flex items-between w-full gap-3">
-          <p className="text-sm">{authorName}</p>
-          <p className="text-sm">{formatDate(createdAt)}</p>
-        </div>
+    <div className="p-5 px-6 rounded-md bg-secondary flex gap-3 flex-col">
+      <div className="flex gap-3 items-center">
+        <Badge className="rounded-md">{capitalize(category)}</Badge>
+        <span>{formatDate(createdAt)}</span>
       </div>
-    </Link>
+      <h2 className="text-2xl font-bold">{title}</h2>
+      {description && (
+        <p className="text-lg sm:max-w-[65%]">{truncate(description, 150)}</p>
+      )}
+      <div className="w-full flex items-center gap-5">
+        <Link
+          className="text-lg font-semibold transition-colors underline-offset-4 hover:underline text-blue-400 hover:text-blue-400/80"
+          href={`/blogs/${slugify(title)}`}
+        >
+          Read more
+        </Link>
+        <Link
+          className="flex gap-4 items-center"
+          href={`/profile/${author.id}`}
+        >
+          <Avatar imageUrl={author.image} name={author.name} /> by {author.name}
+        </Link>
+      </div>
+    </div>
   );
 };
 

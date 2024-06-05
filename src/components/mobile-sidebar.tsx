@@ -18,6 +18,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { navItemTriggerStyle } from "./ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const NavSheet = ({ children }: { children: React.ReactNode }) => (
   <Sheet key={"left"}>
@@ -42,7 +44,7 @@ export const MobileSidebar = () => {
     <NavSheet>
       <ul className="flex flex-col items-start w-full gap-2">
         <li className="w-full">
-          <Accordion defaultValue="category" type="single">
+          <Accordion className="px-4" collapsible type="single">
             <AccordionItem value="category">
               <AccordionTrigger className="text-bold w-full">
                 Blogs
@@ -50,9 +52,12 @@ export const MobileSidebar = () => {
               <AccordionContent>
                 <ul className="flex flex-col items-start w-full gap-2">
                   {blogCategories.map((category) => (
-                    <li key={category.title}>
+                    <li className="w-full justify-start" key={category.title}>
                       <Link
-                        className={buttonVariants({ variant: "link" })}
+                        className={cn(
+                          navItemTriggerStyle(),
+                          "w-full justify-start"
+                        )}
                         href={`/blogs?category=${encodeURIComponent(
                           category.title.toLowerCase()
                         )}`}
@@ -78,10 +83,10 @@ export const MobileSidebar = () => {
 
         <li className="w-full">
           <Link
-            className={buttonVariants({
-              variant: "link",
-              className: "px-0 text-base",
-            })}
+            className={cn(
+              navItemTriggerStyle(),
+              "text-base w-full justify-start"
+            )}
             href={"/about"}
           >
             About
@@ -89,10 +94,10 @@ export const MobileSidebar = () => {
         </li>
         <li className="w-full">
           <Link
-            className={buttonVariants({
-              variant: "link",
-              className: "px-0 text-base",
-            })}
+            className={cn(
+              navItemTriggerStyle(),
+              "text-base w-full justify-start"
+            )}
             href={"/newsletter"}
           >
             Newsletter
