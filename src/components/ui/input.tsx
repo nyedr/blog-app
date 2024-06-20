@@ -10,14 +10,18 @@ export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   isPrivateable?: boolean;
+  containerClass?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, errorMessage, isPrivateable, ...props }, ref) => {
+  (
+    { className, type, errorMessage, isPrivateable, containerClass, ...props },
+    ref
+  ) => {
     const [isPrivate, setIsPrivate] = useState(true);
 
     return (
-      <div className="relative peer">
+      <div className={cn(containerClass, "relative peer")}>
         <input
           type={
             isPrivateable

@@ -1,13 +1,24 @@
 import prisma from "@/lib/db";
-import { Category } from "@prisma/client";
+import { Category, Prisma } from "@prisma/client";
+import { User, type Blog as BlogSchema } from "@prisma/client";
+
+// TODO: Implement error handling
+
+export interface BlogType extends BlogSchema {
+  author: User;
+}
+
+export interface FetchBlogsResponse {
+  blogs: BlogType[];
+  totalCount: number;
+}
 
 export async function GET(req: Request) {
   const searchParams = new URLSearchParams(req.url.split("?")[1]);
   const category = searchParams.get("category");
-  console.log("Category:", category);
   const searchQuery = searchParams.get("query");
-
-  let blogs = [];
+  const pageNumber = searchParams.get("page");
+  const currentPage = isNaN(+(pageNumber || 1)) ? 1 : +(pageNumber || 1);
 
   const blogSelectables = {
     id: true,
@@ -30,82 +41,65 @@ export async function GET(req: Request) {
     },
   };
 
-  if (searchQuery && !category) {
-    blogs = await prisma.blog.findMany({
-      where: {
-        OR: [
-          {
-            title: {
-              contains: searchQuery,
-              mode: "insensitive",
-            },
-          },
-          {
-            content: {
-              contains: searchQuery,
-              mode: "insensitive",
-            },
-          },
-        ],
-      },
-      select: blogSelectables,
-    });
-
-    return new Response(JSON.stringify(blogs));
-  }
-
-  if (category && !searchQuery) {
-    if (!Category[category.toUpperCase() as keyof typeof Category])
-      return new Response("Invalid category", { status: 400 });
-
-    blogs = await prisma.blog.findMany({
-      where: {
-        category: {
-          equals: Category[category.toUpperCase() as keyof typeof Category],
-        },
-      },
-      select: blogSelectables,
-    });
-
-    return new Response(JSON.stringify(blogs));
-  }
-
-  if (category && searchQuery) {
-    blogs = await prisma.blog.findMany({
-      where: {
-        AND: [
-          {
-            category: {
-              equals: Category[category.toUpperCase() as keyof typeof Category],
-            },
-          },
-          {
-            OR: [
-              {
-                title: {
-                  contains: searchQuery,
-                  mode: "insensitive",
-                },
-              },
-              {
-                content: {
-                  contains: searchQuery,
-                  mode: "insensitive",
-                },
-              },
+  const query = {
+    where:
+      category || searchQuery
+        ? {
+            AND: [
+              category
+                ? {
+                    category:
+                      Category[
+                        category
+                          .replace(" ", "_")
+                          .toUpperCase() as keyof typeof Category
+                      ],
+                  }
+                : {},
+              searchQuery
+                ? {
+                    OR: [
+                      {
+                        title: {
+                          contains: searchQuery,
+                          mode: "insensitive",
+                        },
+                      },
+                      {
+                        content: {
+                          contains: searchQuery,
+                          mode: "insensitive",
+                        },
+                      },
+                    ],
+                  }
+                : {},
             ],
-          },
-        ],
-      },
-      select: blogSelectables,
-    });
-
-    return new Response(JSON.stringify(blogs));
-  }
-
-  blogs = await prisma.blog.findMany({
+          }
+        : undefined,
     select: blogSelectables,
-  });
+    take: 10,
+    skip: 10 * (currentPage - 1),
+  } satisfies Prisma.BlogFindManyArgs;
 
-  return new Response(JSON.stringify(blogs));
+  const [blogs, totalCount] = await prisma.$transaction([
+    prisma.blog.findMany(query),
+    prisma.blog.count({ where: query.where }),
+  ]);
+
+  return new Response(
+    JSON.stringify({ blogs, totalCount } as FetchBlogsResponse)
+  );
 }
+
+export const getBlogs = async (
+  search: string,
+  category: string,
+  page: number = 1
+): Promise<FetchBlogsResponse> => {
+  const response = await fetch(
+    `/api/blogs?query=${search}&category=${category}&page=${page}`
+  );
+  if (!response.ok) throw new Error("Failed to fetch blogs");
+  return response.json() as Promise<FetchBlogsResponse>;
+};

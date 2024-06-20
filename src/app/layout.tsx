@@ -52,9 +52,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <QueryProvider>
               <SessionProvider session={session}>
-                <div className="relative flex min-h-screen flex-col">
+                <div className="relative flex min-h-screen h-full flex-col">
                   <SiteHeader />
-                  <div className="flex-1 mt-6 sm:mt-10">{children}</div>
+                  <div className="flex-1 h-full">{children}</div>
                 </div>
               </SessionProvider>
               <TailwindIndicator />
