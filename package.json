@@ -6,7 +6,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "clean-schema": "RMDIR node_modules /S /Q && pnpm install && npx prisma generate",
+    "clean-schema": "RMDIR node_modules /S /Q && pnpm install && npx prisma generate && npx prisma db push",
     "preinstall": "npx only-allow pnpm",
     "db:studio": "npx prisma studio",
     "db:push": "npx prisma db push"
@@ -34,6 +34,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
+    "react-markdown": "^9.0.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.5"

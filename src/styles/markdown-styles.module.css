@@ -1,0 +1,113 @@
+.reactMarkDown {
+  word-wrap: break-word;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.reactMarkDown a {
+  color: #4183c4;
+  text-decoration: none;
+}
+
+.reactMarkDown a:hover {
+  text-decoration: underline;
+}
+
+.reactMarkDown p,
+.reactMarkDown blockquote,
+.reactMarkDown ul,
+.reactMarkDown ol,
+.reactMarkDown dl,
+.reactMarkDown table,
+.reactMarkDown pre {
+  margin: 15px 0;
+}
+
+.reactMarkDown ul,
+.reactMarkDown ol {
+  padding-left: 30px;
+}
+
+.reactMarkDown ul {
+    list-style-type: disc;
+}
+
+.reactMarkDown ol {
+    list-style-type: decimal;
+}
+
+.reactMarkDown h1 {
+  border-bottom: 1px solid #ddd;
+  color: #000;
+  font-size: 2.5em;
+}
+
+.reactMarkDown h2 {
+  border-bottom: 1px solid #eee;
+  color: #000;
+  font-size: 2em;
+}
+
+.reactMarkDown h3 {
+  font-size: 1.5em;
+}
+
+.reactMarkDown h4 {
+  font-size: 1.2em;
+}
+
+.reactMarkDown h5 {
+  font-size: 1em;
+}
+
+.reactMarkDown h6 {
+  color: #777;
+  font-size: 1em;
+}
+
+.reactMarkDown h1,
+.reactMarkDown h2,
+.reactMarkDown h3,
+.reactMarkDown h4,
+.reactMarkDown h5,
+.reactMarkDown h6 {
+  font-weight: bold;
+  line-height: 1.7;
+  margin: 1em 0 15px 0;
+}
+
+.reactMarkDown h1 + p,
+.reactMarkDown h2 + p,
+.reactMarkDown h3 + p {
+  margin-top: 10px;
+}
+
+.reactMarkDown img {
+  max-width: 100%;
+}
+
+.reactMarkDown code,
+.reactMarkDown pre {
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+  font-size: 12px;
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: pre;
+  overflow: auto;
+}
+
+.reactMarkDown pre code {
+  border: none;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+}
+
+.reactMarkDown hr {
+    border: none;
+    border-top: 1px solid currentColor;
+    opacity: 50%;
+    margin: 30px 0;
+}

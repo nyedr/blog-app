@@ -1,16 +1,10 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-enum Provider {
-  GOOGLE
-  GITHUB
-  EMAIL
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -19,9 +13,40 @@ model User {
   name      String    @unique
   hashedPwd String
   image     String?
+  provider  Provider  @default(EMAIL)
   blogs     Blog[]
   comments  Comment[]
-  provider  Provider  @default(EMAIL)
+}
+
+model Blog {
+  id          String    @id @default(uuid())
+  title       String
+  content     String
+  published   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    String
+  category    Category
+  description String?
+  blogKey     String    @unique
+  author      User      @relation(fields: [authorId], references: [id])
+  comments    Comment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  text      String
+  createdAt DateTime @default(now())
+  blogId    String
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  blog      Blog     @relation(fields: [blogId], references: [id])
+}
+
+enum Provider {
+  GOOGLE
+  GITHUB
+  EMAIL
 }
 
 enum Category {
@@ -31,28 +56,4 @@ enum Category {
   EMERGING_TECH
   SECURITY
   CONSUMER_TECH
-}
-
-model Blog {
-  id          String    @id @default(uuid())
-  title       String    @unique
-  content     String
-  description String?
-  published   Boolean   @default(false)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  authorId    String
-  author      User      @relation(fields: [authorId], references: [id])
-  comments    Comment[]
-  category    Category
-}
-
-model Comment {
-  id        String   @id @default(uuid())
-  text      String
-  createdAt DateTime @default(now())
-  blogId    String
-  blog      Blog     @relation(fields: [blogId], references: [id])
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
 }

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
 export const containerVariants = cva(
   "max-w-[1080px] mx-auto w-full py-4 max-[800px]:px-[calc(10vw/2)]",
@@ -24,7 +25,7 @@ const Container = React.forwardRef<HTMLDivElement, ContainerProps>(
   ({ className, layout, ...props }, ref) => {
     return (
       <div
-        className={containerVariants({ layout, className })}
+        className={cn(containerVariants({ layout }), className)}
         ref={ref}
         {...props}
       />

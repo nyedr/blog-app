@@ -1,8 +1,8 @@
-import { capitalize, formatDate, slugify, truncate } from "@/lib/utils";
+import { capitalize, formatDate, truncate } from "@/lib/utils";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Avatar from "./ui/avatar";
-import { BlogType } from "@/app/blogs/page";
+import { BlogType } from "@/app/api/blogs/route";
 
 const Blog = ({
   category,
@@ -10,6 +10,7 @@ const Blog = ({
   description,
   title,
   author,
+  blogKey,
 }: BlogType) => {
   return (
     <div className="p-5 px-6 rounded-md bg-secondary flex gap-3 flex-col">
@@ -24,7 +25,7 @@ const Blog = ({
       <div className="w-full flex items-center gap-5">
         <Link
           className="text-lg font-semibold transition-colors underline-offset-4 hover:underline text-blue-400 hover:text-blue-400/80"
-          href={`/blogs/${slugify(title)}`}
+          href={`/blogs/${blogKey}`}
         >
           Read more
         </Link>

@@ -40,8 +40,6 @@ export const authOptions = {
       async authorize(credentials, req) {
         if (!credentials) return null;
 
-        console.time("signin");
-
         const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/signin`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -52,11 +50,7 @@ export const authOptions = {
 
         const data = await res.json();
 
-        console.log("Fetched user data:", data);
-
         if (!data || data.error) return null;
-
-        console.timeEnd("signin");
 
         return {
           name: data.user?.name,
@@ -68,13 +62,21 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.sub,
-      },
-    }),
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user = {
+          ...session.user,
+          id: token.sub,
+        };
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.sub = user.id;
+      }
+      return token;
+    },
   },
   secret: process.env.SECRET,
   pages: {

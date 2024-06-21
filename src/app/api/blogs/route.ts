@@ -1,11 +1,19 @@
 import prisma from "@/lib/db";
-import { Category, Prisma } from "@prisma/client";
+import { Category, Prisma, Comment } from "@prisma/client";
 import { User, type Blog as BlogSchema } from "@prisma/client";
 
 // TODO: Implement error handling
 
+export interface UserComment {
+  id: string;
+  text: string;
+  createdAt: Date;
+  author: User;
+}
+
 export interface BlogType extends BlogSchema {
   author: User;
+  comments: UserComment[];
 }
 
 export interface FetchBlogsResponse {
@@ -13,33 +21,34 @@ export interface FetchBlogsResponse {
   totalCount: number;
 }
 
+export const blogSelectables = {
+  id: true,
+  title: true,
+  author: true,
+  createdAt: true,
+  content: true,
+  updatedAt: true,
+  published: true,
+  category: true,
+  description: true,
+  blogKey: true,
+  authorId: true,
+  comments: {
+    select: {
+      id: true,
+      author: true,
+      createdAt: true,
+      text: true,
+    },
+  },
+};
+
 export async function GET(req: Request) {
   const searchParams = new URLSearchParams(req.url.split("?")[1]);
   const category = searchParams.get("category");
   const searchQuery = searchParams.get("query");
   const pageNumber = searchParams.get("page");
   const currentPage = isNaN(+(pageNumber || 1)) ? 1 : +(pageNumber || 1);
-
-  const blogSelectables = {
-    id: true,
-    title: true,
-    author: true,
-    createdAt: true,
-    content: true,
-    updatedAt: true,
-    published: true,
-    category: true,
-    description: true,
-    authorId: true,
-    comments: {
-      select: {
-        id: true,
-        author: true,
-        createdAt: true,
-        text: true,
-      },
-    },
-  };
 
   const query = {
     where:
@@ -80,6 +89,7 @@ export async function GET(req: Request) {
     select: blogSelectables,
     take: 10,
     skip: 10 * (currentPage - 1),
+    orderBy: { createdAt: "desc" },
   } satisfies Prisma.BlogFindManyArgs;
 
   const [blogs, totalCount] = await prisma.$transaction([
