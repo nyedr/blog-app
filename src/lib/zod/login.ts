@@ -17,7 +17,7 @@ export type UserLoginData = z.infer<typeof userLoginSchema>;
 
 export type LoginResponse = {
   isError: boolean;
-  user: User | null;
+  user: Omit<User, "hashedPwd"> | null;
   error?: {
     title: string;
     description: string;

@@ -1,4 +1,6 @@
 import prisma from "@/lib/db";
+import { getToken } from "next-auth/jwt";
+import { NextRequest } from "next/server";
 
 export const createComment = async (
   blogId: string,
@@ -14,21 +16,28 @@ export const createComment = async (
   return await response.json();
 };
 
-export const POST = async (req: Request) => {
+export const POST = async (req: NextRequest) => {
   const { blogId, userId, text } = await req.json();
+  const token = await getToken({ req });
 
-  console.log("userId", userId);
+  if (!token?.email && !blogId)
+    return new Response("Unauthorized", { status: 401 });
+
+  const user = await prisma.user.findUnique({
+    where: {
+      email: token?.email ?? "",
+    },
+  });
 
   const comment = await prisma.comment.create({
     data: {
       blogId,
-      authorId: userId,
+      authorId: user?.id ?? userId,
       text,
     },
   });
 
   return new Response(JSON.stringify(comment), {
     status: 201,
-    headers: { "Content-Type": "application/json" },
   });
 };

@@ -40,8 +40,6 @@ const LoginForm = () => {
       setIsLoading(false);
     }, 15000);
 
-    console.log("Submitting sign in details", data);
-
     const callbackUrl = decodeURIComponent(
       searchParams.get("callbackUrl") ?? "/"
     );
