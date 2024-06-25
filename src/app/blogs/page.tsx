@@ -172,7 +172,7 @@ const BlogsPage = () => {
   const { blogs, totalCount } = data;
 
   return (
-    <Container className="flex py-10 itesm-center flex-col gap-10">
+    <Container className="flex py-10 items-center flex-col gap-10">
       <h1 className="text-5xl font-semibold">Blogs Page</h1>
       <div>
         <BlogsFilterControl />

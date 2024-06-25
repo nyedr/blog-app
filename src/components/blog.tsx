@@ -1,4 +1,4 @@
-import { capitalize, formatDate, truncate } from "@/lib/utils";
+import { capitalize, formatDate, slugify, truncate } from "@/lib/utils";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
 import Avatar from "./ui/avatar";
@@ -31,7 +31,7 @@ const Blog = ({
         </Link>
         <Link
           className="flex gap-4 items-center"
-          href={`/profile/${author.id}`}
+          href={`/author/${encodeURIComponent(author.name)}`}
         >
           <Avatar imageUrl={author.image} name={author.name} /> by {author.name}
         </Link>

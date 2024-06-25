@@ -69,7 +69,14 @@ export const nextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, session, trigger }) {
+      if (trigger === "update") {
+        return {
+          ...token,
+          ...session.user,
+        };
+      }
+
       // console.log("jwt:", token, account);
       // Persist the OAuth access_token to the token right after signin
       if (account) {

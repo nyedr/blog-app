@@ -30,12 +30,12 @@ export const rawToString = (rawString: string) => {
   );
 };
 
-export function slugify(string: string) {
+export const slugify = (string: string) => {
   return string
     .toLowerCase()
     .replace(/ /g, "-")
     .replace(/[^\w-]+/g, "");
-}
+};
 
 export const formatDate = (date: Date) => {
   return new Date(date).toLocaleDateString("en-US", {

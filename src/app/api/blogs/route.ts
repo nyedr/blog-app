@@ -1,5 +1,5 @@
 import prisma from "@/lib/db";
-import { Category, Prisma, Comment } from "@prisma/client";
+import { Category, Prisma } from "@prisma/client";
 import { User, type Blog as BlogSchema } from "@prisma/client";
 
 // TODO: Implement error handling
@@ -8,7 +8,7 @@ export interface UserComment {
   id: string;
   text: string;
   createdAt: Date;
-  author: User;
+  author: Omit<User, "hashedPwd">;
 }
 
 export interface BlogType extends BlogSchema {

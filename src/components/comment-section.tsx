@@ -2,7 +2,7 @@
 
 import { UserComment } from "@/app/api/blogs/route";
 import Avatar from "./ui/avatar";
-import { formatDate } from "@/lib/utils";
+import { formatDate, slugify } from "@/lib/utils";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { createComment } from "@/app/api/comment/route";
@@ -11,18 +11,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Button } from "./ui/button";
 
-export const CommentComponent = ({
-  author,
-  createdAt,
-  id,
-  text,
-}: UserComment) => {
+export const CommentComponent = ({ author, createdAt, text }: UserComment) => {
   return (
     <div className="w-full bg-secondary flex flex-col items-start gap-3 p-4 rounded-md">
       <div className="flex w-full justify-between items-center gap-3 font-medium">
         <Link
           className="flex gap-4 items-center font-medium"
-          href={`/profile/${author.id}`}
+          href={`/author/${encodeURIComponent(author.name)}`}
         >
           <Avatar imageUrl={author.image} name={author.name} /> {author.name}
         </Link>

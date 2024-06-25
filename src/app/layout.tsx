@@ -5,11 +5,12 @@ import { cn } from "@/lib/utils";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "./theme-provider";
 import SiteHeader from "@/components/site-header";
-import { Inter, Roboto } from "next/font/google";
+import { Lexend_Deca } from "next/font/google";
 import { siteConfig } from "@/lib/config";
 import SessionProvider from "./session-provider";
 import { getServerSession } from "next-auth";
 import QueryProvider from "./query-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: {
@@ -28,10 +29,11 @@ export const metadata: Metadata = {
   },
 };
 
-const roboto = Roboto({
+const lexendDeca = Lexend_Deca({
   weight: "400",
   subsets: ["latin"],
 });
+
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -46,7 +48,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <body
           className={cn(
             "min-h-screen bg-background font-sans antialiased",
-            roboto.className
+            lexendDeca.className
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -57,6 +59,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   <div className="flex-1 h-full">{children}</div>
                 </div>
               </QueryProvider>
+              <Toaster />
             </SessionProvider>
             <TailwindIndicator />
           </ThemeProvider>

@@ -9,7 +9,7 @@ import Container from "@/components/ui/container";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useBlog } from "@/hooks/useBlog";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, slugify } from "@/lib/utils";
 import { UseQueryResult } from "@tanstack/react-query";
 import Link from "next/link";
 
@@ -35,15 +35,18 @@ const BlogPage = ({ params: { blogKey } }: { params: { blogKey: string } }) => {
     return <Loading size={50} />;
   }
 
+  // TODO: Fix code formatting inside md code blocks
+  // HTML is being escaped in the content
+
   return (
-    <Container className="flex py-10 itesm-center flex-col gap-3">
+    <Container className="flex py-10 items-center flex-col gap-3">
       <h1 className="text-3xl lg:text-5xl font-semibold mb-4 lg:mb-7">
         {blog.title}
       </h1>
       <div className="w-full bg-secondary rounded-lg py-4 flex items-center justify-between px-4">
         <Link
           className="flex gap-4 items-center font-medium transition-colors underline-offset-4 hover:underline"
-          href={`/profile/${blog.author.id}`}
+          href={`/author/${encodeURIComponent(blog.author.name)}`}
         >
           <Avatar imageUrl={blog.author.image} name={blog.author.name} />{" "}
           {blog.author.name}

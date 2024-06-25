@@ -19,8 +19,6 @@ import { Icons } from "@/components/icons";
 const UserAvatar = () => {
   const { data: session } = useSession();
 
-  // TODO: Fix the user avatar name
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,15 +40,6 @@ const UserAvatar = () => {
           <DropdownMenuItem>
             <Link
               href="/settings"
-              className="flex items-center justify-start w-full h-full gap-2"
-            >
-              <Icons.user className="w-4 h-4" />
-              <span>Manage profile</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link
-              href="/settings/account"
               className="flex items-center justify-start w-full h-full gap-2"
             >
               <Icons.settings className="w-4 h-4" />
